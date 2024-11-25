@@ -1,0 +1,48 @@
+<div class='flex items-center justify-between gap-4'>
+
+<h1 class='font-bold text-4xl'>Listify</h1>
+
+<button class='font-bold bg-black text-white px-3 py-3 rounded-md'>Add Grocery</button>
+
+
+
+<%= if @tab do %>
+<div>
+<.form
+  for={@form}
+  id="add_item"
+  phx-change="validate_item"
+  phx-submit="submit_item"
+  class="flex flex-col gap-4"
+>
+
+<.select><./select>
+  <.input type="text" placeholder="Enter Name" field={@form[:name]} />
+  <.input type="text" placeholder="Enter Email" field={@form[:email]} />
+  <.button>Submit</.button>
+</.form>
+
+<% else %>
+<.form
+  for={@form}
+  id="login_form"
+  phx-change="validate-login"
+  phx-submit="submit-login"
+  class="flex flex-col gap-4"
+>
+
+  <.input type="text" placeholder="Enter Email" field={@form[:email]} />
+  <.button>Submit</.button>
+</.form>
+
+
+</form>
+
+
+</div>
+
+<% end %>
+
+</div>
+
+

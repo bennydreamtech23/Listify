@@ -1,0 +1,49 @@
+
+
+
+<div class='flex items-start justify-normal gap-4'>
+  <button class={[
+    "font-bols",
+    @tab == "register" && "bg-black text-white px-3 py-3 rounded-md"
+  ]} phx-click='register'>
+    Register
+  </button>
+
+
+   <button class={[
+    "font-bold",
+    @tab == "login" && "font-bold bg-black text-white px-3 py-3 rounded-md"
+  ]} phx-click='login'>
+   Login
+  </button>
+
+
+</div>
+
+
+<%=if @tab == "register" do %>
+<.form
+  for={@form}
+  id="registeration_form"
+  phx-change="validate"
+  phx-submit="submit"
+  class="flex flex-col gap-4"
+>
+  <.input type="text" placeholder="Enter Name" field={@form[:name]} />
+  <.input type="text" placeholder="Enter Email" field={@form[:email]} />
+  <.button>Submit</.button>
+</.form>
+
+<% else %>
+<.form
+  for={@form}
+  id="login_form"
+  phx-change="validate-login"
+  phx-submit="submit-login"
+  class="flex flex-col gap-4"
+>
+
+  <.input type="text" placeholder="Enter Email" field={@form[:email]} />
+  <.button>Submit</.button>
+</.form>
+<% end %>
