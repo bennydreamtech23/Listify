@@ -21,6 +21,12 @@ defmodule Listify.Grocerys do
     Repo.all(Grocery)
   end
 
+
+  def list_groceries(user_id) do
+    from(g in Grocery, where: g.user_id == ^user_id)
+    |> Repo.all()
+  end
+
   @doc """
   Gets a single grocery.
 

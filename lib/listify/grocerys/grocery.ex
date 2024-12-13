@@ -15,7 +15,7 @@ defmodule Listify.Grocerys.Grocery do
   @doc false
   def changeset(grocery, attrs) do
     grocery
-    |> cast(attrs, [:name, :description, :quantity])
+    |> cast(attrs, [:name, :description, :quantity, :user_id, :category_id])
     |> validate_required([:name, :description, :quantity])
   end
 end

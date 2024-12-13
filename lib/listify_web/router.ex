@@ -19,7 +19,7 @@ defmodule ListifyWeb.Router do
 
   #  get "/", PageController, :home
   live "/", UserLive.Index
-
+  get "/set_session/:user_name", Session, :set_user_name
   live "/list", ItemsLive.Index
   end
 

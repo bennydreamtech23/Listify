@@ -1,48 +1,131 @@
+
+<section>
 <div class='flex items-center justify-between gap-4'>
 
 <h1 class='font-bold text-4xl'>Listify</h1>
 
-<button class='font-bold bg-black text-white px-3 py-3 rounded-md'>Add Grocery</button>
+<button class='font-bold bg-black text-white px-3 py-3 rounded-md' phx-click='add_grocery'>Add Grocery</button>
 
-
+</div>
 
 <%= if @tab do %>
-<div>
-<.form
-  for={@form}
-  id="add_item"
-  phx-change="validate_item"
-  phx-submit="submit_item"
-  class="flex flex-col gap-4"
->
-
-<.select><./select>
-  <.input type="text" placeholder="Enter Name" field={@form[:name]} />
-  <.input type="text" placeholder="Enter Email" field={@form[:email]} />
-  <.button>Submit</.button>
-</.form>
-
-<% else %>
-<.form
-  for={@form}
-  id="login_form"
-  phx-change="validate-login"
-  phx-submit="submit-login"
-  class="flex flex-col gap-4"
->
-
-  <.input type="text" placeholder="Enter Email" field={@form[:email]} />
-  <.button>Submit</.button>
-</.form>
-
-
-</form>
-
-
+<div class="flex flex-col gap-4">
+  <.form
+    for={@form}
+    id="add_item"
+    phx-change="validate_item"
+    phx-submit="submit_item"
+    class=""
+  >
+    <.input
+        field={@form[:category_id]}
+        type="select"
+        options={@categories}
+     phx-debounce="300" />
+    <.input type="text" placeholder="Enter Name" field={@form[:name]} phx-debounce="300"/>
+    <.input type="text" placeholder="Enter description" field={@form[:description]} phx-debounce="300"/>
+    <.input type="number" field={@form[:quantity]} phx-debounce="300" />
+    <.button>Submit</.button>
+  </.form>
 </div>
-
 <% end %>
 
-</div>
+
+ <%= if @groceries_list != [] do %>
+      <section class="overflow-x-auto w-full bg-white mt-4">
+        <table class="table-auto border-collapse min-w-full shadow-md rounded-md">
+          <thead class="bg-black text-white">
+            <tr class="text-primaryColor border-b">
+
+                     <td class="font-bold px-5 py-6 text-left text-xs text-primaryColor tracking-wider whitespace-nowrap">
+S/N
+              </td>
+              <td class="font-bold px-5 py-6 text-left text-xs text-primaryColor tracking-wider whitespace-nowrap">
+             Name
+              </td>
+              <td class="font-bold px-5 py-6 text-left text-xs text-primaryColor tracking-wider whitespace-nowrap">
+             Description
+              </td>
+              <td class="font-bold px-5 py-6 text-left text-xs text-primaryColor tracking-wider whitespace-nowrap">
+             Quantity
+              </td>
+              <td class="font-bold px-5 py-6 text-left text-xs text-primaryColor tracking-wider whitespace-nowrap">
+            Category Name
+              </td>
+
+                <td class="font-bold px-5 py-6 text-left text-xs text-primaryColor tracking-wider whitespace-nowrap">
+   Action
+              </td>
+              
+            </tr>
+          </thead>
+
+            <%= for {groceries, index} <- Enum.with_index(@groceries_list, 1) do %>
+            <tbody>
+              <tr class="py-20 border-b">
+
+  
+                <td
+                  class="px-5 py-6 text-left text-xs text-primaryColor whitespace-nowrap cursor-pointer"
+
+                >
+            <%= index %>
+                </td>
+
+                <td
+                  class="px-5 py-6 text-left text-xs text-primaryColor whitespace-nowrap cursor-pointer"
+
+                >
+                  <%= groceries.name %>
+                </td>
+
+                <td
+                  class="px-5 py-6 text-left text-xs text-primaryColor whitespace-nowrap cursor-pointer"
+                 
+                >
+                    <%= groceries.description %>
+                </td>
+                <td
+                  class="px-5 py-6 text-left text-xs text-primaryColor whitespace-nowrap cursor-pointer"
+                
+                >
+                      <%= groceries.quantity %>
+                </td>
+                
+                   <td
+                  class="px-5 py-6 text-left text-xs text-primaryColor whitespace-nowrap cursor-pointer"
+                
+                >
+                      <%= groceries.category_name %>
+                </td>
+
+
+<td
+                  class="px-5 py-6 text-left text-xs text-primaryColor whitespace-nowrap cursor-pointer"
+                
+                >
+           <div class='flex items-center jusitify-between gap-2'>
+           
+             <img src={~p"/images/icons8-delete.svg"} alt='delete-icon'/>
+                        <img src={~p"/images/icons8-edit.gif"}  alt='edit-icon'/>
+           </div>
+                </td> 
+
+               
+              </tr>
+            </tbody>
+          <% end %>
+        </table>
+      </section>
+    <% else %>
+      <div>
+        <h2>No Grocery Added</h2>
+        <p>You haven't added any grocery yet.</p>
+      </div>
+    <% end %>
+
+
+
+</section>
 
 

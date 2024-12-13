@@ -6,6 +6,7 @@ defmodule ListifyWeb.UserLive.Index do
 
   @impl true
   def mount(_params, _session, socket) do
+
     changeset = Users.change_user(%User{})
     users = Users.list_users()
 
@@ -28,30 +29,28 @@ defmodule ListifyWeb.UserLive.Index do
   end
 
   @impl true
+
+
   def handle_event("submit", %{"user" => user_params}, socket) do
     changeset = Users.change_user(%User{}, user_params)
 
     if changeset.valid? do
       case Users.create_user(user_params) do
         {:ok, user} ->
-
           socket =
-          socket
-          |> put_flash(:info, "welcome #{user.name}!")
-          |> push_navigate(to: ~p"/list")
+            socket
+            |> put_flash(:info, "Welcome #{user.name}!")
+            |> push_navigate(to: ~p"/set_session/#{user.name}")
+
           {:noreply, socket}
 
-
         {:error, _reason} ->
-          # Handle the error gracefully
           {:noreply, socket}
       end
     else
-      # Assign validation error without redirecting
-      {:noreply, socket}
+      {:noreply, assign_form(socket, Map.put(changeset, :action, :validate))}
     end
   end
-
 
 
 
@@ -79,12 +78,11 @@ defmodule ListifyWeb.UserLive.Index do
            |> put_flash(:error, "No user found with the provided email.")}
 
         user ->
-          # User found, proceed with login
-          IO.inspect(user, label: "Found user")
+
           socket =
           socket
           |> put_flash(:info, "User found. Welcome back, #{user.name}!")
-          |> push_navigate(to: ~p"/list")
+          |> push_navigate(to: ~p"/set_session/#{user.name}")
           {:noreply, socket}
       end
     else

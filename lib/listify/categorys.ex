@@ -37,6 +37,15 @@ defmodule Listify.Categorys do
   """
   def get_category!(id), do: Repo.get!(Category, id)
 
+  def get_all_category(id) do
+  from(c in Category,
+    where: c.id in ^id,
+    select: %{id: c.id, name: c.name}
+  )
+  |> Repo.all()
+
+end
+
   @doc """
   Creates a category.
 
